@@ -9,7 +9,7 @@ const Profile = ({name, desc, handleDelete, handleEdit,data =[]}) => {
       <span className='blue_gradient'> {name} Profile </span>
       </h1>
       <p className='desc text-left'>{desc}</p>
-          <div className='mt-11 prompt_layout'>
+          <div className=' flex flex-wrap md:mt-11 prompt_layout'>
             {Array.isArray(data) && data.length > 0 ? (
               data.map((post) => (
                 <PromptCard

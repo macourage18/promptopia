@@ -3,7 +3,7 @@ import React from 'react'
 
 const Form = ({type,post,setPost,submitting,handleSubmit,}) => {
   return (
-    <section className='w-full max-w-full flex-start flex-col'>
+    <section className='w-full max-w-full flex-center flex-col'>
       <h1 className="head_text text-left">
        <span className='blue_gradient'>{type} Post</span>
         </h1>
@@ -42,7 +42,7 @@ const Form = ({type,post,setPost,submitting,handleSubmit,}) => {
             />
           </label>
 
-          <div className='flex-end flex w-full mx-3 mb-5 gap-3'>
+          <div className='flex-end flex w-full mx-3 mb-5 gap-3 py-3'>
             <Link href={"/"} className='text-gray-500 text-sm rounded-full border border-gray-500 px-5 py-1.5 hover:bg-gray-100'>
               Cancel
             </Link>
