@@ -3,10 +3,9 @@
 import {useState, useEffect} from 'react'
 import PromptCard from '@components/PromptCard'
 
-const PromptCardList = ({data, handleTagClick}) => {
+const PromptCardList = ({data,handleTagClick}) => {
   return (
-    <div className='mt-10 prompt_layout'>
-
+    <div className='mt-10 flex-wrap prompt_layout'>
     {data.map((post) => (
       <PromptCard
         key={post._id}
@@ -14,27 +13,54 @@ const PromptCardList = ({data, handleTagClick}) => {
         handleTagClick={handleTagClick}
       />
     ))}
-
     </div>
+    
   )
 }
 
 const Feed = () => {
   const [ searchText, setSearchText] = useState('')
   const [posts, setPosts] = useState([])
-  const [profile, setProfile] = useState([])
-
+  const [allPosts, setAllPosts] = useState([])
 
 
   const handleSearchChange = (e) =>{
-    setSearchText(e.target.value)
+
+    const text = (e.target.value).toLowerCase()
+    setSearchText(text)
+
+    if(text === '') {setPosts(allPosts)
+      return
+    }
+
+    const filtered = allPosts.filter((post) => {
+    const promptText = post.prompt?.toLowerCase() || "";
+    const tagText = post.tag?.toLowerCase() || "";
+    const usernameText = post.creator?.username?.toLowerCase() || "";
+
+    return (
+      promptText.includes(text) ||
+      tagText.includes(text) ||
+      usernameText.includes(text)
+    );
+  });
+
+    setPosts(filtered)
   }
+  const handleTagClick = (tag) => {
+  setSearchText(tag);
+  const filtered = posts.filter((post) =>
+    post.tag.toLowerCase().includes(tag.toLowerCase())
+  );
+  setPosts(filtered);
+};
 
   useEffect(() =>{
     const fetchPosts = async ()=>{
       const response =await fetch ('/api/prompt',)
       const data = await response.json()
-
+      
+      setAllPosts(data)
       setPosts(data)
     }
    
@@ -44,8 +70,8 @@ const Feed = () => {
 
 
   return (
-    <section className='feed'>
-    <form className='relative w-full flex-center'>
+    <section className='feed  '>
+    <form className='relative w-8/12 flex-center'>
     <input
       type="text"
       placeholder='search for a tag or a username'
@@ -55,9 +81,10 @@ const Feed = () => {
       className='search_input peer'
     />
     </form>
+
       <PromptCardList
       data = {posts}
-      handleTagClick= {() => {}}
+      handleTagClick= {handleTagClick}
       />
     </section>
   )
