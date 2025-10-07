@@ -4,7 +4,8 @@ import {useRouter, useSearchParams} from 'next/navigation'
 
 import Form from '@components/Form'
 
-const EditPrompt = () => {
+
+function EditPromptContent  ()  {
     const router = useRouter()
     const searchParams = useSearchParams()
 
@@ -58,19 +59,23 @@ const EditPrompt = () => {
 
   return (
   <div>
-     <Suspense fallback={<>...</>}>
     <Form 
     type="Edit"
     post={post}
     setPost={setPost}
     submitting={submitting}
     handleSubmit={updatePrompt}
-    searchParams={searchParams}
      />
 
-     </Suspense>
   </div>
   )
 }
 
-export default EditPrompt
+
+export default function EditPrompt() {
+  return(
+    <Suspense fallback={<>...</>}>
+    <EditPromptContent />
+    </Suspense>
+  )
+}
